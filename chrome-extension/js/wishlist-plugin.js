@@ -20,6 +20,7 @@ $(document).ready(function()
 			$sale_data.add().html($sales.first());
 			
 			//TODO:
+			// fix css when item is not on sale
 			// implement daily deal countdown timer
 			// find "Packages that include this game" section & report package sale info
 			// show all purchase variants
