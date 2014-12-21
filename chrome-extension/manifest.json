@@ -5,7 +5,8 @@
 	"version": "1.0",
 	"permissions": 
 	[
-		"http://steamcommunity.com/"
+		"http://steamcommunity.com/",
+		"http://store.steampowered.com/"
 	],
 	"browser_action":
 	{
@@ -16,6 +17,7 @@
 	[
 		{
 			"matches": ["*://steamcommunity.com/id/*/wishlist/*"],
+			"css": ["css/wishlist.css"],
 			"js":
 			[
 				"js/libs/jquery-2.1.3.min.js",
