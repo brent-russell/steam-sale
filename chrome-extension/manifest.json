@@ -16,7 +16,11 @@
 	"content_scripts":
 	[
 		{
-			"matches": ["*://steamcommunity.com/id/*/wishlist/*"],
+			"matches":
+			[
+				"*://steamcommunity.com/id/*/wishlist/*",
+				"*://steamcommunity.com/id/*/wishlist"
+			],
 			"css": ["css/wishlist.css"],
 			"js":
 			[
