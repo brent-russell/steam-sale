@@ -1,7 +1,33 @@
 <html>
 <head>
+ 	<style type='text/css'>
+		.settings
+		{
+			white-space:nowrap;
+		}
+
+		.setting
+		{
+			margin-top:5px;
+		}
+
+		.settings label
+		{
+			display:inline-block;
+			width:90px;
+		}
+	</style>
 </head>
 <body>
-	Testing...
+	<div class='settings'>
+		<div class='setting'>
+			<label for='country-code'>Country Code: </label>
+			<input id='country-code' type='text' />
+		</div>
+		<div class='setting'>
+			<label for='language'>Language: </label>
+			<input id='language' type='text' />
+		</div>
+	</div>
 </body>
 </html>
