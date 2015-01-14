@@ -19,6 +19,10 @@ $(document).ready(function()
 			var $sale_data = $wishlist_row_item.find('.sale-data');
 			$sale_data.add().html($sales.first());
 			
+			//TODO: switch from screen scraping to using big-picture api (http://store.steampowered.com/api/appdetails/?appids=249990)
+			//TODO: add country code parameter setting in plugin - (example: &cc=uk to get UK pounds instead of US dollars)
+			//TODO: implement language parameter setting in plugin - (example: &l=french to translate page content into french - language name must be lowercase and in English - e.g. 'french' not 'Francais'
+			
 			//TODO:
 			// fix css when item is not on sale
 			// implement daily deal countdown timer
