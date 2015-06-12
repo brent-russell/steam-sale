@@ -6,7 +6,8 @@
 	"permissions": 
 	[
 		"http://steamcommunity.com/",
-		"http://store.steampowered.com/"
+		"http://store.steampowered.com/",
+		"storage"
 	],
 	"browser_action":
 	{
