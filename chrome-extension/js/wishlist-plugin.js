@@ -7,7 +7,7 @@ $(document).ready(function()
 		var appId = this.id.match(/\d+/)[0];
 		var $wishlist_item = $(this);
 		
-		$.get('http://store.steampowered.com/api/appdetails/?appids=' + appId, function(result)
+		$.get('http://store.steampowered.com/api/appdetails/?appids=' + appId + '&filters=price_overview', function(result)
 		{
 			var $data = result[Object.keys(result)[0]].data;
 
@@ -28,7 +28,6 @@ $(document).ready(function()
 					var $sale_data = $wishlist_row_item.find('.sale-data');
 					$sale_data.add().html($sales.first());
 					
-					//TODO: switch from screen scraping to using big-picture api (http://store.steampowered.com/api/appdetails/?appids=249990)
 					//TODO: add country code parameter setting in plugin - (example: &cc=uk to get UK pounds instead of US dollars) (also, cc parameter seems to be either proxy or server cached, simply removing the parameter does not necessarily revert the country to a default value)
 					//TODO: implement language parameter setting in plugin - (example: &l=french to translate page content into french - language name must be lowercase and in English - e.g. 'french' not 'Francais'
 					
