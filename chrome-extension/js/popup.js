@@ -3,6 +3,7 @@ $(document).ready(function(){
 	chrome.storage.local.get('steam-sale-helper', function(result) {
 		$('#country-code').val(result['steam-sale-helper']['country-code']);
 		$('#language').val(result['steam-sale-helper']['language']);
+		$('#language-code').val(result['steam-sale-helper']['language-code']);
 	});
 
 	$('#save').click(function(){
@@ -12,7 +13,8 @@ $(document).ready(function(){
 			'steam-sale-helper':
 			{
 				'country-code': $('#country-code').val(),
-				'language': $('#language').val()
+				'language': $('#language').val(),
+				'language-code': $('#language-code').val()
 			}
 		});
 	});
