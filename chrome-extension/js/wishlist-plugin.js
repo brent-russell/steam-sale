@@ -29,15 +29,38 @@ $(document).ready(function()
 						// find first buy section & report sale type info
 						var $store_document = $($.parseHTML(store_page_html, null, true));
 						var $sales = $store_document.find('#game_area_purchase .game_area_purchase_game_wrapper .game_area_purchase_game .game_purchase_discount_countdown');
+						var $sale = $sales.first();
 						var $sale_data = $wishlist_row_item.find('.sale-data');
-						$sale_data.add().html($sales.first());
-						
-						//TODO: add country code parameter setting in plugin - (example: &cc=uk to get UK pounds instead of US dollars) (also, cc parameter seems to be either proxy or server cached, simply removing the parameter does not necessarily revert the country to a default value)
-						//TODO: implement language parameter setting in plugin - (example: &l=french to translate page content into french - language name must be lowercase and in English - e.g. 'french' not 'Francais'
+						$sale_data.add().html($sale);
+
+						// display daily deal end datetime
+						var global_JS = $store_document.find('script:contains("g_ServerTime")').first().html();	// selector '.game_page_background.game > script' doesn't work here...
+						var initCountdown_JS = $store_document.find('#game_area_purchase .game_area_purchase_game_wrapper .game_area_purchase_game > script').html();
+
+						if (global_JS && initCountdown_JS)
+						{
+							var g_ServerTime = global_JS.match(/var g_ServerTime = (\d+);/)[1];
+							var nServerEndTime = initCountdown_JS.match(/InitDailyDealTimer\( \$DiscountCountdown, (\d+) \);/)[1];
+							var nTimeRemaining = nServerEndTime - g_ServerTime;
+							var endDateLocal = new Date(new Date().getTime() + nTimeRemaining * 1000);
+
+							$sale.find('span').html(endDateLocal.toLocaleDateString("en", {	// TODO: replace en with language code
+								weekday: 'long',
+								day: 'numeric',
+								month: 'short',
+								year: 'numeric',
+								hour: 'numeric',
+								minute: 'numeric'
+							}));
+
+							// TODO: replace text "Offer ends in" with "Offer ends" or "Offer ends on"
+							
+							//var nEndTimeLocal = Math.round( new Date().getTime() / 1000 ) + nTimeRemaining;
+							//new Countdown( elTimer, nEndTimeLocal );
+						}
 						
 						//TODO:
 						// fix css when item is not on sale
-						// implement daily deal countdown timer - CANCEL - display deal end date instead
 						// find "Packages that include this game" section & report package sale info
 						// show all purchase variants
 						// add "add to cart" for each purchase option
