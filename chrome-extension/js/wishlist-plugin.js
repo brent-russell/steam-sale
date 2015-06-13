@@ -1,9 +1,19 @@
+var g_chrext_steam_sale_helper_settings =
+{
+	country_code: null,
+	language: null,
+	language_code: null
+};
+
 $(document).ready(function()
 {
 	chrome.storage.local.get('steam-sale-helper', function(result)
 	{
-		var country_code = result['steam-sale-helper']['country-code'];
-		var language = result['steam-sale-helper']['language'];
+		var settings = g_chrext_steam_sale_helper_settings;
+		settings.country_code = result['steam-sale-helper']['country-code'],
+		settings.language = result['steam-sale-helper']['language'],
+		settings.language_code = result['steam-sale-helper']['language-code'] || 'en'	// default to english if not set
+		
 		var wishlist_items = $('#wishlist_items .wishlistRow');
 		
 		wishlist_items.each(function(i)
@@ -11,7 +21,7 @@ $(document).ready(function()
 			var appId = this.id.match(/\d+/)[0];
 			var $wishlist_item = $(this);
 			
-			$.get('http://store.steampowered.com/api/appdetails/?appids=' + appId + '&filters=price_overview&cc=' + country_code + '&l=' + language, function(result)
+			$.get('http://store.steampowered.com/api/appdetails/?appids=' + appId + '&filters=price_overview&cc=' + settings.country_code + '&l=' + settings.language, function(result)
 			{
 				var $data = result[Object.keys(result)[0]].data;
 
@@ -44,16 +54,19 @@ $(document).ready(function()
 							var nTimeRemaining = nServerEndTime - g_ServerTime;
 							var endDateLocal = new Date(new Date().getTime() + nTimeRemaining * 1000);
 
-							$sale.find('span').html(endDateLocal.toLocaleDateString("en", {	// TODO: replace en with language code
-								weekday: 'long',
-								day: 'numeric',
-								month: 'short',
-								year: 'numeric',
-								hour: 'numeric',
-								minute: 'numeric'
-							}));
+							$sale.find('span').html(endDateLocal.toLocaleDateString(
+								g_chrext_steam_sale_helper_settings.language_code,
+								{
+									weekday: 'long',
+									day: 'numeric',
+									month: 'short',
+									year: 'numeric',
+									hour: 'numeric',
+									minute: 'numeric'
+								}
+							));
 
-							// TODO: replace text "Offer ends in" with "Offer ends" or "Offer ends on"
+							// TODO: replace text "Offer ends in" with "Offer ends" - how to handle multilingual?
 							
 							//var nEndTimeLocal = Math.round( new Date().getTime() / 1000 ) + nTimeRemaining;
 							//new Countdown( elTimer, nEndTimeLocal );
