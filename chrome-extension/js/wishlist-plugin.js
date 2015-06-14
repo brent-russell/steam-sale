@@ -21,7 +21,8 @@ $(document).ready(function()
 		{
 			settings.language_code = 'en';
 		}
-		
+
+		var sale_type_regex = /(.+)!/;
 		var $wishlist_items = $('#wishlist_items .wishlistRow');
 		
 		// add select list filter for sale type
@@ -29,6 +30,39 @@ $(document).ready(function()
 			.before('<div class="wishlist_sale_filter">Filter Sale Type: <select id="wishlist_sale_filter"><option>*</option></select></div>')
 
 		var $filter = $('#wishlist_sale_filter');
+
+		$filter.change(function()
+		{
+			var selected_value = $(this).val();
+			
+			$wishlist_items.each(function()
+			{
+				var $wishlist_item = $(this);
+				
+				if (selected_value == '*')
+				{
+					$wishlist_item.show();
+				}
+				else
+				{
+					var $sale = $wishlist_item.find('.game_purchase_discount_countdown');
+					
+					if ($sale.length > 0)
+					{
+						var sale_type = $sale.text().match(sale_type_regex)[1];
+						
+						if (sale_type == selected_value)
+						{
+							$wishlist_item.show();
+						}
+						else
+						{
+							$wishlist_item.hide();
+						}
+					}
+				}
+			});
+		});
 		
 		$wishlist_items.each(function(i)
 		{
@@ -58,7 +92,7 @@ $(document).ready(function()
 						$sale_data.add().html($sale);
 
 						// add sale type to select list
-						var sale_type = $sale.text().match(/(.+)!/)[1];
+						var sale_type = $sale.text().match(sale_type_regex)[1];
 
 						if ($filter.find('option[value="' + sale_type + '"]').length == 0)
 						{
