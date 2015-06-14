@@ -10,9 +10,18 @@ $(document).ready(function()
 	chrome.storage.local.get('steam-sale-helper', function(result)
 	{
 		var settings = g_chrext_steam_sale_helper_settings;
-		settings.country_code = result['steam-sale-helper']['country-code'],
-		settings.language = result['steam-sale-helper']['language'],
-		settings.language_code = result['steam-sale-helper']['language-code'] || 'en'	// default to english if not set
+		var settings_root = result['steam-sale-helper'];
+		
+		if (settings_root)
+		{
+			settings.country_code = settings_root['country-code'],
+			settings.language = settings_root['language'],
+			settings.language_code = settings_root['language-code'] || 'en'	// default to english if not set
+		}
+		else
+		{
+			settings.language_code = 'en';
+		}
 		
 		var wishlist_items = $('#wishlist_items .wishlistRow');
 		
