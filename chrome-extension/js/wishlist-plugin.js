@@ -1,15 +1,14 @@
-var g_chrext_steam_sale_helper_settings =
-{
-	country_code: null,
-	language: null,
-	language_code: null
-};
-
 $(document).ready(function()
 {
 	chrome.storage.local.get('steam-sale-helper', function(result)
 	{
-		var settings = g_chrext_steam_sale_helper_settings;
+		var settings =
+		{
+			country_code: null,
+			language: null,
+			language_code: null
+		};
+
 		var settings_root = result['steam-sale-helper'];
 		
 		if (settings_root)
@@ -23,13 +22,15 @@ $(document).ready(function()
 			settings.language_code = 'en';
 		}
 		
+		var $wishlist_items = $('#wishlist_items .wishlistRow');
+		
 		// add select list filter for sale type
 		$('#wishlist_sort_options')
-			.before('<div class="wishlist_sale_filter">Filter Sale Type: <select id="wishlist_sale_filter"><option>*</option></select></div>');
+			.before('<div class="wishlist_sale_filter">Filter Sale Type: <select id="wishlist_sale_filter"><option>*</option></select></div>')
+
+		var $filter = $('#wishlist_sale_filter');
 		
-		var wishlist_items = $('#wishlist_items .wishlistRow');
-		
-		wishlist_items.each(function(i)
+		$wishlist_items.each(function(i)
 		{
 			var appId = this.id.match(/\d+/)[0];
 			var $wishlist_item = $(this);
@@ -58,7 +59,6 @@ $(document).ready(function()
 
 						// add sale type to select list
 						var sale_type = $sale.text().match(/(.+)!/)[1];
-						var $filter = $('#wishlist_sale_filter');
 
 						if ($filter.find('option[value="' + sale_type + '"]').length == 0)
 						{
@@ -77,7 +77,7 @@ $(document).ready(function()
 							var endDateLocal = new Date(new Date().getTime() + nTimeRemaining * 1000);
 
 							$sale.find('span').html(endDateLocal.toLocaleDateString(
-								g_chrext_steam_sale_helper_settings.language_code,
+								settings.language_code,
 								{
 									weekday: 'long',
 									day: 'numeric',
