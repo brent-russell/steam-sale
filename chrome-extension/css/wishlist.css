@@ -1,9 +1,10 @@
-.sale-data
-{
-	
+.sale-data{
 }
 
-.gameListPriceData
-{
+.gameListPriceData {
 	top: -2px !important;
+}
+
+.wishlist_sale_filter {
+	float: left;
 }

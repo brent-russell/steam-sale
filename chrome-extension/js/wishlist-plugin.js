@@ -23,6 +23,10 @@ $(document).ready(function()
 			settings.language_code = 'en';
 		}
 		
+		// add select list filter for sale type
+		$('#wishlist_sort_options')
+			.before('<div class="wishlist_sale_filter">Filter Sale Type: <select id="wishlist_sale_filter"><option>*</option></select></div>');
+		
 		var wishlist_items = $('#wishlist_items .wishlistRow');
 		
 		wishlist_items.each(function(i)
@@ -52,6 +56,15 @@ $(document).ready(function()
 						var $sale_data = $wishlist_row_item.find('.sale-data');
 						$sale_data.add().html($sale);
 
+						// add sale type to select list
+						var sale_type = $sale.text().match(/(.+)!/)[1];
+						var $filter = $('#wishlist_sale_filter');
+
+						if ($filter.find('option[value="' + sale_type + '"]').length == 0)
+						{
+							$filter.append('<option value="' + sale_type + '">' + sale_type + '</option>');
+						}
+						
 						// display daily deal end datetime
 						var global_JS = $store_document.find('script:contains("g_ServerTime")').first().html();	// selector '.game_page_background.game > script' doesn't work here...
 						var initCountdown_JS = $store_document.find('#game_area_purchase .game_area_purchase_game_wrapper .game_area_purchase_game > script').html();
