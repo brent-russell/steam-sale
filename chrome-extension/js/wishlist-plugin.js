@@ -156,7 +156,12 @@ $(document).ready(function()
 		});
 		
 		// select default sale filter
-		var filterIntervalId = window.setInterval(function() {
+		var filterIntervalLength = 500;
+		var filterTimeLimit = 15000;	// 30s
+		var filterTime = 0;
+		
+		var filterIntervalId = window.setInterval(function()
+		{
 			if (wishlist_item_counter === $wishlist_items.length)
 			{
 				window.clearInterval(filterIntervalId);
@@ -164,6 +169,14 @@ $(document).ready(function()
 				$filter.val(settings.sale_type);
 				$filter.change();
 			}
-		}, 500);
+			
+			filterTime += filterIntervalLength;
+			
+			if (filterTime >= filterTimeLimit)
+			{
+				window.clearInterval(filterIntervalId);	// do not process past time limit in case async call times out
+			}
+			
+		}, filterIntervalLength);
 	});
 });
