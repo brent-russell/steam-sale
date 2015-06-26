@@ -24,7 +24,10 @@ $(document).ready(function()
 			settings.language_code = 'en';
 		}
 
+		var appId_regex = /\d+/;
 		var sale_type_regex = /(.+)!/;
+		var g_ServerTime_regex = /var g_ServerTime = (\d+);/;
+		var deal_countdown_regex = /InitDailyDealTimer\( \$DiscountCountdown, (\d+) \);/;
 		var $wishlist_items = $('#wishlist_items .wishlistRow');
 		
 		// add select list filter for sale type
@@ -68,7 +71,7 @@ $(document).ready(function()
 		
 		$wishlist_items.each(function(i)
 		{
-			var appId = this.id.match(/\d+/)[0];
+			var appId = this.id.match(appId_regex)[0];
 			var $wishlist_item = $(this);
 			
 			$.get('http://store.steampowered.com/api/appdetails/?appids=' + appId + '&filters=price_overview&cc=' + settings.country_code + '&l=' + settings.language, function(result)
@@ -107,8 +110,8 @@ $(document).ready(function()
 
 						if (global_JS && initCountdown_JS)
 						{
-							var g_ServerTime = global_JS.match(/var g_ServerTime = (\d+);/)[1];
-							var nServerEndTime = initCountdown_JS.match(/InitDailyDealTimer\( \$DiscountCountdown, (\d+) \);/)[1];
+							var g_ServerTime = global_JS.match(g_ServerTime_regex)[1];
+							var nServerEndTime = initCountdown_JS.match(deal_countdown_regex)[1];
 							var nTimeRemaining = nServerEndTime - g_ServerTime;
 							var endDateLocal = new Date(new Date().getTime() + nTimeRemaining * 1000);
 
