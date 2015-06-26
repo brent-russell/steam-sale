@@ -32,7 +32,7 @@ $(document).ready(function()
 		
 		// add select list filter for sale type
 		$('#wishlist_sort_options')
-			.before('<div class="wishlist_sale_filter">Filter Sale Type: <select id="wishlist_sale_filter"><option>*</option></select></div>')
+			.before('<div class="wishlist_sale_filter">Filter Sale Type: <select id="wishlist_sale_filter"><option>*</option><option>!*</option></select></div>')
 
 		var $filter = $('#wishlist_sale_filter');
 
@@ -44,7 +44,7 @@ $(document).ready(function()
 			{
 				var $wishlist_item = $(this);
 				
-				if (selected_value == '*')
+				if (selected_value === '*')
 				{
 					$wishlist_item.show();
 				}
@@ -54,9 +54,18 @@ $(document).ready(function()
 					
 					if ($sale.length > 0)
 					{
-						var sale_type = $sale.text().match(sale_type_regex)[1];
+						var sale_type;
 						
-						if (sale_type == selected_value)
+						if (selected_value === '!*')
+						{
+							sale_type = '!*';
+						}
+						else
+						{
+							sale_type = $sale.text().match(sale_type_regex)[1];
+						}
+
+						if (sale_type === selected_value)
 						{
 							$wishlist_item.show();
 						}
