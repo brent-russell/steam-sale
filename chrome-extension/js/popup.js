@@ -4,6 +4,7 @@ $(document).ready(function(){
 		$('#country-code').val(result['steam-sale-helper']['country-code']);
 		$('#language').val(result['steam-sale-helper']['language']);
 		$('#language-code').val(result['steam-sale-helper']['language-code']);
+		$('#sale-type').val(result['steam-sale-helper']['sale-type']);
 	});
 
 	$('#save').click(function(){
@@ -14,7 +15,8 @@ $(document).ready(function(){
 			{
 				'country-code': $('#country-code').val(),
 				'language': $('#language').val(),
-				'language-code': $('#language-code').val()
+				'language-code': $('#language-code').val(),
+				'sale-type': $('#sale-type').val()
 			}
 		});
 	});

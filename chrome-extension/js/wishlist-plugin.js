@@ -6,7 +6,8 @@ $(document).ready(function()
 		{
 			country_code: null,
 			language: null,
-			language_code: null
+			language_code: null,
+			sale_type: null
 		};
 
 		var settings_root = result['steam-sale-helper'];
@@ -15,7 +16,8 @@ $(document).ready(function()
 		{
 			settings.country_code = settings_root['country-code'],
 			settings.language = settings_root['language'],
-			settings.language_code = settings_root['language-code'] || 'en'	// default to english if not set
+			settings.language_code = settings_root['language-code'] || 'en',	// default to english
+			settings.sale_type = settings_root['sale-type'] || '*'	// default to all items
 		}
 		else
 		{
@@ -137,5 +139,8 @@ $(document).ready(function()
 				}
 			}, 'json');
 		});
+		
+		// select default sale filter
+		$filter.val(settings.sale_type);	//TODO: need to make this line happen after all async data requests & response handlers are complete
 	});
 });
