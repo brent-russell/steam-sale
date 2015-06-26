@@ -2,7 +2,12 @@
 }
 
 .gameListPriceData {
-	top: -2px !important;
+	top: 0px !important;
+	margin-top: 15px;
+}
+
+.gameListPriceData.saleType {
+	margin-top: -2px;
 }
 
 .wishlist_sale_filter {

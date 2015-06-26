@@ -106,6 +106,7 @@ $(document).ready(function()
 					var store_page_url = $wishlist_item.find('.gameListPriceData .storepage_btn_ctn a').attr('href'); // get the "Visit Store Page" anchor
 					var $price_data = $wishlist_row_item.find('.gameListPriceData');
 
+					$price_data.addClass('saleType');
 					$price_data.children().first().before('<div class="sale-data"></div>');
 
 					// the only way to get the sale type is to scrape the store page html
