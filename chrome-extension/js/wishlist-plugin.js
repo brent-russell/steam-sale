@@ -65,6 +65,10 @@ $(document).ready(function()
 							$wishlist_item.hide();
 						}
 					}
+					else
+					{
+						$wishlist_item.hide();
+					}
 				}
 			});
 		});
