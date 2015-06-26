@@ -69,6 +69,8 @@ $(document).ready(function()
 			});
 		});
 		
+		var wishlist_item_counter = 0;
+		
 		$wishlist_items.each(function(i)
 		{
 			var appId = this.id.match(appId_regex)[0];
@@ -103,7 +105,9 @@ $(document).ready(function()
 						{
 							$filter.append('<option value="' + sale_type + '">' + sale_type + '</option>');
 						}
-						
+
+						wishlist_item_counter++;
+
 						// display daily deal end datetime
 						var global_JS = $store_document.find('script:contains("g_ServerTime")').first().html();	// selector '.game_page_background.game > script' doesn't work here...
 						var initCountdown_JS = $store_document.find('#game_area_purchase .game_area_purchase_game_wrapper .game_area_purchase_game > script').html();
@@ -140,10 +144,22 @@ $(document).ready(function()
 						// add "add to cart" for each purchase option
 					}, 'html');
 				}
+				else
+				{
+					wishlist_item_counter++;
+				}
 			}, 'json');
 		});
 		
 		// select default sale filter
-		$filter.val(settings.sale_type);	//TODO: need to make this line happen after all async data requests & response handlers are complete
+		var filterIntervalId = window.setInterval(function() {
+			if (wishlist_item_counter === $wishlist_items.length)
+			{
+				window.clearInterval(filterIntervalId);
+
+				$filter.val(settings.sale_type);
+				$filter.change();
+			}
+		}, 500);
 	});
 });
