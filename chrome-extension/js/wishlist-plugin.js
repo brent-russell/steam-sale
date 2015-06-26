@@ -39,6 +39,13 @@ $(document).ready(function()
 		$filter.change(function()
 		{
 			var selected_value = $(this).val();
+			var negate = selected_value.slice(0, 1) === '!';
+			var unnegated_value = selected_value;
+			
+			if (negate)
+			{
+				unnegated_value = selected_value.slice(1);
+			}
 			
 			$wishlist_items.each(function()
 			{
@@ -52,7 +59,11 @@ $(document).ready(function()
 				{
 					var $sale = $wishlist_item.find('.game_purchase_discount_countdown');
 					
-					if ($sale.length > 0)
+					if ($sale.length === 0)
+					{
+						$wishlist_item.hide();
+					}
+					else
 					{
 						var sale_type;
 						
@@ -64,8 +75,8 @@ $(document).ready(function()
 						{
 							sale_type = $sale.text().match(sale_type_regex)[1];
 						}
-
-						if (sale_type === selected_value)
+						
+						if ( (negate && sale_type !== unnegated_value) || (!negate && sale_type === selected_value) )
 						{
 							$wishlist_item.show();
 						}
@@ -73,10 +84,6 @@ $(document).ready(function()
 						{
 							$wishlist_item.hide();
 						}
-					}
-					else
-					{
-						$wishlist_item.hide();
 					}
 				}
 			});
@@ -117,6 +124,7 @@ $(document).ready(function()
 						if ($filter.find('option[value="' + sale_type + '"]').length == 0)
 						{
 							$filter.append('<option value="' + sale_type + '">' + sale_type + '</option>');
+							$filter.append('<option value="!' + sale_type + '">!' + sale_type + '</option>');
 						}
 
 						wishlist_item_counter++;
